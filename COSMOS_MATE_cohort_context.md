@@ -17,6 +17,6 @@ December 21, 1990 to July 22, 2026.
 
 2 - Index is set at the date of first lung-transplant code.
 
-3 - All patients are required to have >= 1 year observation window before index, and >= 1 year observation window after index.
+3 - All patients are required to have records available for >= 1 year observation window before index, and for >= 1 year observation window after index.
 
 
