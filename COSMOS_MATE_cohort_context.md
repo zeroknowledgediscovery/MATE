@@ -4,8 +4,8 @@ August 11, 2026
 ## Total Observed Lung Transplant Surgeries Date Range: 
 December 21, 1990 to July 22, 2026.
 
-## Cohort Eligibility: 
-1 - Lung Transplant Cohort was defined as patients of any age having any lung-transplant-related code, namely (CPT):
+## Cohort Inclusion/Exclusion Criteria: 
+1 - Inclusion: Patients of all ages are included if they have any lung-transplant-related code recorded, namely (CPT):
 
 * 00580 - Anesthesia for a heart transplant or combined heart–lung transplant
 * 32851 - Single-lung transplant without cardiopulmonary bypass
@@ -17,6 +17,6 @@ December 21, 1990 to July 22, 2026.
 
 2 - Index is set at the date of first lung-transplant code.
 
-3 - All patients are required to have records available for >= 1 year observation window before index, and for >= 1 year observation window after index.
+3 - Exclusion: All patients are required to have records available for >= 1 year observation window before index, and for >= 1 year observation window after index.
 
 
