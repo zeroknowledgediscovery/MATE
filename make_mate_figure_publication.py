@@ -247,7 +247,7 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
         ax.set_xlim(-1.5, 51.5)
         # Headroom keeps vertical leaders and their labels inside the axes.
         ax.set_ylim(max(0, min(lo)-4), max(85, max(hi)+17))
-        ax.set_ylabel("Adjusted MATE prevalence (%)", fontsize=18*F, labelpad=10)
+        ax.set_ylabel("Shrinkage-adjusted MATE prevalence (%)", fontsize=18*F, labelpad=10)
         ax.set_xlabel("States ranked by estimated prevalence", fontsize=17*F, labelpad=12)
         ax.tick_params(axis="y", labelsize=15*F, length=5, width=1.1)
         if state_labels == "all":
