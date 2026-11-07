@@ -178,7 +178,7 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
         "savefig.facecolor": "white", "figure.facecolor": "white",
     })
     color = "#17638a"
-    cm = mpl.colormaps["viridis"]
+    cm = mpl.colormaps["jet"]
     norm = mpl.colors.Normalize(vmin=0, vmax=65)
     fig = plt.figure(figsize=(18.8, 8.5), facecolor="white")
     try:
@@ -231,11 +231,11 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
                     va="bottom",
                     fontsize=16*F,
                     fontweight="bold",
-                    color="#1f2937",
+                    color="#ff2222",
                     bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=.98),
                     arrowprops=dict(
                         arrowstyle="-|>",
-                        color="#4b5563",
+                        color="#ff5555",
                         lw=1.25*F,
                         shrinkA=5,
                         shrinkB=0,
@@ -246,8 +246,8 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
                 )
         ax.set_xlim(-1.5, 51.5)
         # Headroom keeps vertical leaders and their labels inside the axes.
-        ax.set_ylim(max(0, min(lo)-4), max(85, max(hi)+17))
-        ax.set_ylabel("Shrinkage-adjusted MATE prevalence (%)", fontsize=18*F, labelpad=10)
+        ax.set_ylim(max(0, min(lo)-4), max(70, max(hi)+12))
+        ax.set_ylabel("Adjusted MATE prevalence (%)", fontsize=18*F, labelpad=10)
         ax.set_xlabel("States ranked by estimated prevalence", fontsize=17*F, labelpad=12)
         ax.tick_params(axis="y", labelsize=15*F, length=5, width=1.1)
         if state_labels == "all":
@@ -271,7 +271,7 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
         )
         ax.text(.02, .98, details, transform=ax.transAxes, ha="left", va="top",
                 fontsize=14*F, color="#273444", linespacing=1.5)
-        fig.text(.71, .025,
+        fig.text(.71, .1,
                  "Dots: posterior means; bars: 95% posterior intervals; "
                  "dashed line: fitted state mean.",
                  fontsize=11.5*F, color="#394454", ha="center")
