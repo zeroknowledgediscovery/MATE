@@ -212,13 +212,38 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
         mean_pct = 100*result["mean"]
         ax.axhline(mean_pct, linestyle="--", linewidth=1.75*F,
                    color="#6c7b89", zorder=1)
+        label_offsets = {
+            "PA": (-18, 18),
+            "TX": (-18, 18),
+            "KY": (18, 18),
+            "SC": (10, 18),
+        }
         for st in HIGHLIGHT:
             idx = p.index[p["state"] == st]
             if len(idx):
                 i = int(idx[0])
-                ax.annotate(st, (i, y[i]), xytext=(0, 12 if st != "SC" else 15),
-                            textcoords="offset points", ha="center", va="bottom",
-                            fontsize=16*F, fontweight="bold", color="#1f2937")
+                dx, dy = label_offsets.get(st, (0, 16))
+                ax.annotate(
+                    st,
+                    xy=(i, y[i]),
+                    xytext=(dx, dy),
+                    textcoords="offset points",
+                    ha="center",
+                    va="bottom",
+                    fontsize=16*F,
+                    fontweight="bold",
+                    color="#1f2937",
+                    bbox=dict(boxstyle="round,pad=0.16", fc="white", ec="none", alpha=0.9),
+                    arrowprops=dict(
+                        arrowstyle="->",
+                        color="#4b5563",
+                        lw=1.0*F,
+                        shrinkA=2,
+                        shrinkB=3,
+                        mutation_scale=10*F,
+                    ),
+                    zorder=5,
+                )
         ax.set_xlim(-1.5, 51.5)
         ax.set_ylim(max(0, min(lo)-4), max(70, max(hi)+6))
         ax.set_ylabel("Adjusted MATE prevalence (%)", fontsize=18*F, labelpad=10)
@@ -280,7 +305,7 @@ def main() -> None:
                         help="Multiply all font sizes; try 1.0 or 1.2")
     parser.add_argument("--state-labels", choices=("highlighted", "all"),
                         default="highlighted",
-                        help="Default: name only PA/TX/KY/SC above their points")
+                        help="Default: label only PA/TX/KY/SC with arrow pointers")
     args = parser.parse_args()
     if not 0.75 <= args.font_scale <= 1.5:
         parser.error("--font-scale must be between 0.75 and 1.5")
