@@ -180,27 +180,27 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
     color = "#17638a"
     cm = mpl.colormaps["viridis"]
     norm = mpl.colors.Normalize(vmin=0, vmax=65)
-    fig = plt.figure(figsize=(17.4, 8.5), facecolor="white")
+    fig = plt.figure(figsize=(18.8, 8.5), facecolor="white")
     try:
         # Panel A: original state boundaries, raw 5-component MATE proportion.
-        ax_map = fig.add_axes([.035, .235, .427, .615])
+        ax_map = fig.add_axes([.025, .275, .355, .59])
         lower48.plot(column="prevalence", ax=ax_map, cmap=cm, norm=norm,
                      edgecolor="#343a45", linewidth=.75)
         ax_map.set_axis_off()
         fig.text(.028, .942, "A", fontsize=25*F, fontweight="bold", va="top")
-        fig.text(.245, .918, "MATE prevalence by state", fontsize=21*F,
+        fig.text(.205, .918, "MATE prevalence by state", fontsize=19*F,
                  fontweight="bold", ha="center", va="top")
-        plot_inset(fig, ak, [.055, .102, .122, .155], "AK", cm, norm, 15*F)
-        plot_inset(fig, hi, [.195, .127, .072, .093], "HI", cm, norm, 15*F)
-        cb_axis = fig.add_axes([.285, .147, .18, .031])
+        plot_inset(fig, ak, [.04, .128, .118, .155], "AK", cm, norm, 15*F)
+        plot_inset(fig, hi, [.178, .146, .070, .093], "HI", cm, norm, 15*F)
+        cb_axis = fig.add_axes([.257, .158, .113, .030])
         cb = fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cm),
                           cax=cb_axis, orientation="horizontal")
         cb.set_ticks([0, 15, 30, 45, 60])
         cb.ax.tick_params(labelsize=15*F, length=5, pad=4)
         cb.set_label("MATE prevalence (%)", fontsize=17*F, labelpad=8)
 
-        # Panel B: larger label fonts, no 51 illegible x-axis names by default.
-        ax = fig.add_axes([.553, .206, .422, .646])
+        # Panel B: wider plot, including all 51 vertically rotated state labels.
+        ax = fig.add_axes([.450, .270, .525, .595])
         p = estimates.sort_values("posterior_mean").reset_index(drop=True)
         x = np.arange(len(p))
         y = 100 * p["posterior_mean"].to_numpy()
@@ -212,56 +212,54 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
         mean_pct = 100*result["mean"]
         ax.axhline(mean_pct, linestyle="--", linewidth=1.75*F,
                    color="#6c7b89", zorder=1)
-        # Long leader arrows: labels sit above the corresponding error bars.
-        # Offsets are in printer's points relative to each posterior mean.
-        # TX and KY are deliberately staggered horizontally to avoid ambiguity.
-        label_offsets = {
-            "PA": (-16, 108),
-            "TX": (-34, 126),
-            "KY": (36, 126),
-            "SC": (-31, 72),
-        }
+        # Vertical leader arrows stop just ABOVE each state's upper interval.
+        # Each label is directly aligned with its posterior mean/error bar.
+        label_heights = {"PA": 46.0, "TX": 56.0, "KY": 63.0, "SC": 78.0}
         for st in HIGHLIGHT:
             idx = p.index[p["state"] == st]
             if len(idx):
                 i = int(idx[0])
-                dx, dy = label_offsets.get(st, (0, 16))
+                arrow_end_y = hi[i] + 1.0  # do not touch the interval
+                label_y = max(label_heights[st], arrow_end_y + 10.0)
                 ax.annotate(
                     st,
-                    xy=(i, y[i]),
-                    xytext=(dx, dy),
-                    textcoords="offset points",
+                    xy=(i, arrow_end_y),
+                    xycoords="data",
+                    xytext=(i, label_y),
+                    textcoords="data",
                     ha="center",
                     va="bottom",
                     fontsize=16*F,
                     fontweight="bold",
                     color="#1f2937",
-                    bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.98),
+                    bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=.98),
                     arrowprops=dict(
-                        arrowstyle="->",
+                        arrowstyle="-|>",
                         color="#4b5563",
                         lw=1.25*F,
-                        shrinkA=4,
-                        shrinkB=3,
-                        mutation_scale=11*F,
+                        shrinkA=5,
+                        shrinkB=0,
+                        mutation_scale=9*F,
+                        connectionstyle="arc3,rad=0",
                     ),
                     zorder=5,
                 )
         ax.set_xlim(-1.5, 51.5)
-        # Extra headroom keeps long leader arrows and text inside the axes.
-        ax.set_ylim(max(0, min(lo)-4), max(76, max(hi)+11))
+        # Headroom keeps vertical leaders and their labels inside the axes.
+        ax.set_ylim(max(0, min(lo)-4), max(85, max(hi)+17))
         ax.set_ylabel("Adjusted MATE prevalence (%)", fontsize=18*F, labelpad=10)
-        ax.set_xlabel("States ranked by estimated prevalence", fontsize=17*F, labelpad=10)
+        ax.set_xlabel("States ranked by estimated prevalence", fontsize=17*F, labelpad=12)
         ax.tick_params(axis="y", labelsize=15*F, length=5, width=1.1)
         if state_labels == "all":
             ax.set_xticks(x)
-            ax.set_xticklabels(p["state"], rotation=90, fontsize=10.5*F)
+            ax.set_xticklabels(p["state"], rotation=90, fontsize=10.2*F, ha="center", va="top")
+            ax.tick_params(axis="x", pad=3, length=3, width=.8)
         else:
             ax.set_xticks([])
         ax.spines["right"].set_visible(False)
         ax.spines["top"].set_visible(False)
-        fig.text(.512, .942, "B", fontsize=25*F, fontweight="bold", va="top")
-        fig.text(.755, .918, "Hierarchical state estimates", fontsize=21*F,
+        fig.text(.413, .942, "B", fontsize=25*F, fontweight="bold", va="top")
+        fig.text(.713, .918, "Hierarchical state estimates", fontsize=21*F,
                  fontweight="bold", va="top", ha="center")
         # Place the model summary in the free upper-left part of panel B.
         details = (
@@ -273,10 +271,10 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
         )
         ax.text(.02, .98, details, transform=ax.transAxes, ha="left", va="top",
                 fontsize=14*F, color="#273444", linespacing=1.5)
-        fig.text(.5, .04,
-                 "Points: state posterior means; vertical lines: 95% posterior intervals. "
-                 "Dashed line: model-estimated state mean.",
-                 fontsize=13*F, color="#394454", ha="center")
+        fig.text(.71, .025,
+                 "Dots: posterior means; bars: 95% posterior intervals; "
+                 "dashed line: fitted state mean.",
+                 fontsize=11.5*F, color="#394454", ha="center")
 
         paths = {ext: outdir / f"{stem}.{ext}" for ext in ("png", "pdf", "svg")}
         fig.savefig(paths["png"], dpi=400)
@@ -308,8 +306,8 @@ def main() -> None:
     parser.add_argument("--font-scale", type=float, default=1.10,
                         help="Multiply all font sizes; try 1.0 or 1.2")
     parser.add_argument("--state-labels", choices=("highlighted", "all"),
-                        default="highlighted",
-                        help="Default: label only PA/TX/KY/SC with arrow pointers")
+                        default="all",
+                        help="Default: show all 51 state/DC abbreviations at 90 degrees")
     args = parser.parse_args()
     if not 0.75 <= args.font_scale <= 1.5:
         parser.error("--font-scale must be between 0.75 and 1.5")
