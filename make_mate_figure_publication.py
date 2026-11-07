@@ -212,11 +212,14 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
         mean_pct = 100*result["mean"]
         ax.axhline(mean_pct, linestyle="--", linewidth=1.75*F,
                    color="#6c7b89", zorder=1)
+        # Long leader arrows: labels sit above the corresponding error bars.
+        # Offsets are in printer's points relative to each posterior mean.
+        # TX and KY are deliberately staggered horizontally to avoid ambiguity.
         label_offsets = {
-            "PA": (-18, 18),
-            "TX": (-18, 18),
-            "KY": (18, 18),
-            "SC": (10, 18),
+            "PA": (-16, 108),
+            "TX": (-34, 126),
+            "KY": (36, 126),
+            "SC": (-31, 72),
         }
         for st in HIGHLIGHT:
             idx = p.index[p["state"] == st]
@@ -233,19 +236,20 @@ def make_figure(counts: pd.DataFrame, outdir: Path, boundary_file: Path,
                     fontsize=16*F,
                     fontweight="bold",
                     color="#1f2937",
-                    bbox=dict(boxstyle="round,pad=0.16", fc="white", ec="none", alpha=0.9),
+                    bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.98),
                     arrowprops=dict(
                         arrowstyle="->",
                         color="#4b5563",
-                        lw=1.0*F,
-                        shrinkA=2,
+                        lw=1.25*F,
+                        shrinkA=4,
                         shrinkB=3,
-                        mutation_scale=10*F,
+                        mutation_scale=11*F,
                     ),
                     zorder=5,
                 )
         ax.set_xlim(-1.5, 51.5)
-        ax.set_ylim(max(0, min(lo)-4), max(70, max(hi)+6))
+        # Extra headroom keeps long leader arrows and text inside the axes.
+        ax.set_ylim(max(0, min(lo)-4), max(76, max(hi)+11))
         ax.set_ylabel("Adjusted MATE prevalence (%)", fontsize=18*F, labelpad=10)
         ax.set_xlabel("States ranked by estimated prevalence", fontsize=17*F, labelpad=10)
         ax.tick_params(axis="y", labelsize=15*F, length=5, width=1.1)
