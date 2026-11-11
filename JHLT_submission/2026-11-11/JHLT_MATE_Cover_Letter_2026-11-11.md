@@ -18,6 +18,13 @@ We believe the manuscript will interest JHLT readers seeking outcomes that compl
 
 Sincerely,
 
-Ishanu Chattopadhyay
+**Ishanu Chattopadhyay, PhD**  
+Corresponding Author  
+Assistant Professor of Biomedical Informatics, Department of Internal Medicine  
 University of Kentucky
-On behalf of Dmytro Onishchenko, Girish Nair, and Edward Cantu
+
+**Coauthors**
+
+- Dmytro Onishchenko — PhD Student, University of Kentucky
+- Girish B. Nair, MD — Professor of Medicine, Division of Pulmonary, Critical Care, and Sleep Medicine, University of Kentucky
+- Edward Cantu, MD, MSCE — Professor of Surgery; Director, Lung Service Line; Director, Lung Transplant, University of Kentucky
