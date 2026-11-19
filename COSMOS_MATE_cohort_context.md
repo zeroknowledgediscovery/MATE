@@ -1,13 +1,12 @@
 ## Cosmos Query Extraction Date: 
-August 11, 2026
+November 17, 2026
 
 ## Total Observed Lung Transplant Surgeries Date Range: 
-December 21, 1990 to July 22, 2026.
+October 07, 2005 to November 16, 2025.
 
 ## Cohort Inclusion/Exclusion Criteria: 
 1 - Inclusion: Patients of all ages are included if they have any lung-transplant-related code recorded, namely (CPT):
 
-* 00580 - Anesthesia for a heart transplant or combined heart–lung transplant
 * 32851 - Single-lung transplant without cardiopulmonary bypass
 * 32852 - Single-lung transplant with cardiopulmonary bypass
 * 32853 - Double-lung transplant without cardiopulmonary bypass
