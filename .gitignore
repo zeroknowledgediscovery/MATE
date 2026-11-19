@@ -1,0 +1,5 @@
+
+# --- git-gcs managed artifacts ---
+# Exact managed file/directory paths are appended below.
+/COSMOS_transfer_approval_request_1774.zip
+!/COSMOS_transfer_approval_request_1774.zip.gcs

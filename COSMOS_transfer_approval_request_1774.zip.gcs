@@ -1,0 +1,6 @@
+version: 1
+type: file
+uri: gs://git-zeroknowledgediscovery-mate/COSMOS_transfer_approval_request_1774.zip
+sha256: 3bffded39f34ddb33e38c965c2ce97ccd0e3d1eeb29db5be8866d06f680b4e3c
+size_bytes: 9191
+source_repo_relpath: COSMOS_transfer_approval_request_1774.zip
